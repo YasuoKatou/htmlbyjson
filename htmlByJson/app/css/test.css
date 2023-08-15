@@ -1,0 +1,27 @@
+p {
+    color: white;
+    background-color: orange;
+    text-align: center;
+}
+
+.square1, .square2 {
+    height: 3rem;
+    width: 3rem;
+}
+
+.square1:nth-child(odd), .square2:nth-child(even) {
+    background-color: blue;
+}
+
+.square1:nth-child(even), .square2:nth-child(odd) {
+    background-color: red;
+}
+
+.group01 input[type="text"] {
+    margin-left: 0.5rem;
+}
+
+.gp-title {
+    width: 6rem;
+    text-align: right;
+}
