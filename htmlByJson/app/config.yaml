@@ -3,7 +3,7 @@ css:
   - ./htmlByJson/core/css/htmlByJson.css
   - ./htmlByJson/app/css/test.css
 config: {}
-components:
+child:
   - block-label:
       text: hello HTML By JSON !!
   - checkbox:

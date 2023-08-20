@@ -4,6 +4,7 @@ class HtmlByJson {
 
     #configValues = undefined;
     #idManager = undefined;
+    #loader = undefined;
 
     constructor() {
         this.#configValues = {
@@ -11,6 +12,24 @@ class HtmlByJson {
                                                        ,vertical: 'HBJ-LAYOUT-V001'}}}}}
         };
         this.#idManager = new this.#RandomManager();
+        this.#loader = new this.#LoaderManager(this);
+        document.addEventListener('HBJ_ReadConfig', function(event) {
+            // alert('event : HBJ_ReadConfig');
+            let option = event.detail;
+            option.self.readConfig(option.configPath, option.parent);
+        });
+        document.addEventListener('HBJ_ViewByConfig', function(event) {
+            // alert('event : HBJ_ViewByConfig : ' + event.detail.self.constructor.name);
+            // alert('event : HBJ_ViewByConfig : ' + JSON.stringify(event.detail.json));
+            // alert('event : HBJ_ViewByConfig : ' + event.detail.parent);
+            let option = event.detail;
+            option.self.doCreateHTML(option.parent, option.json);
+        });
+    }
+
+    start() {
+        // alert('HtmlByJson.start');
+        this.fireReadConfig(this.configPath, document.body);
     }
 
     /**
@@ -109,6 +128,26 @@ class HtmlByJson {
         return fieldset;
     }
 
+    doCreateHTML(parent, data) {
+        // alert('HtmlByJson.doCreateHTML');
+        if ('css' in data) {
+            this.loadCss(data.css);
+        }
+        if ('config' in data) {
+            this.config = data.config;
+        }
+        if ('child' in data) {
+            this.creaeHTML(parent, data.child);
+        } else {
+            this.creaeHTML(parent, data);
+        }
+        try {
+            this.#loader.terminatedLoadConfig(parent);
+        } catch(error) {
+            alert('HtmlByJson.doCreateHTML : ' + error);
+        }
+    }
+
     creaeHTML(parent, data) {
         // alert(JSON.stringify(data));
         // alert(parent);
@@ -184,23 +223,149 @@ class HtmlByJson {
             }
         }
     };
+
+    fireReadConfig(path, parent) {
+        document.dispatchEvent(
+            new CustomEvent('HBJ_ReadConfig', {
+                detail: {
+                    configPath: path,
+                    parent: parent,
+                    self: this
+                }
+            })
+        );
+    }
+
+    readConfig(path, parent) {
+        try {
+            // alert('HtmlByJson.readConfig : ' + path);
+            this.#loader.loadConfig(path, parent);
+        } catch(error) {
+            alert('at HtmlByJson.readConfig : ' + error);
+        }
+    }
+
+    #LoaderManager = class {
+        core = undefined;
+        loaderList = undefined;
+
+        constructor(core) {
+            this.core = core;
+            this.loaderList = [];
+        }
+
+        loadConfig(path, parent) {
+            let loader = null;
+            for (let item of this.loaderList) {
+                if (item.configPath === path) {
+                    loader = item;
+                    break;
+                }
+            }
+            if (loader === null) {
+                loader = new this.#ViewConfigLoader(this.core, path);
+            }
+            this.loaderList.push(loader);
+            try {
+                loader.doRead(parent);
+            } catch(error) {
+                alert('at LoaderManager.loadConfig : ' + error);
+            }
+        }
+
+        terminatedLoadConfig(parent) {
+            for (let item of this.loaderList) {
+                if (item.terminated(parent)) {
+                    break;
+                }
+            }
+            for (let item of this.loaderList) {
+                if (item.waitLoad()) {
+                    return;
+                }
+            }
+            alert('TODO terminated event');
+        }
+
+        #ViewConfigLoader = class {
+            core = undefined;
+            path = undefined;
+            parentList = undefined;
+            readStatus = undefined;
+            constructor(core, path) {
+                this.core = core;
+                this.path = path;
+                this.parentList = [];
+                this.readStatus = -2;
+            }
+            get configPath() {return this.path}
+            readJson(self, data) {
+                self.readStatus = 0;
+                // alert('#ViewConfigLoader.readJson : ' + JSON.stringify(data));
+                document.dispatchEvent(
+                    new CustomEvent('HBJ_ViewByConfig', {
+                        detail: {
+                            json: data,
+                            parent: this.parentList[0],
+                            self: this.core
+                        }
+                    })
+                );
+            }
+            readError(self, reason) {
+                self.readStatus = 1;
+                alert(reason);
+            }
+            doRead(parent) {
+                if (this.readStatus === -2) {
+                    this.readStatus = -1;
+                    this.parentList.push(parent);
+                    fetch(this.path)
+                        .then(res => {
+                            // alert(res.status + ':' + res.statusText);
+                            if (res.ok) {
+                                return res.json();
+                            } else {
+                                throw new Error(this.path + ' '  + res.statusText);
+                            }
+                        })
+                        .then(data => {
+                            this.readJson(this, data);
+                        })
+                        .catch(error => {
+                            this.readError(this, error);
+                        });
+                }
+            }
+
+            terminated(parent) {
+                if (this.parentList.includes(parent)) {
+                    this.parentList.shift();
+                    return true;
+                }
+                return false;
+            }
+
+            waitLoad() {
+                if (this.readStatus > 0) {  // error
+                    return false;
+                } else if (this.readStatus < 0) {   // reading
+                    return true;
+                }
+                if (this.parentList.length > 0) {   // terminated
+                    return true;
+                }
+                return false;
+            }
+        };
+    };
 }
 // alert('start !!');
 
-let _obj = new HtmlByJson();
-// alert(_obj.configPath);
-fetch(_obj.configPath)
-    .then(res => res.json())
-    .then(data => {
-        // alert(JSON.stringify(data));
-        if ('css' in data) {
-            _obj.loadCss(data.css);
-        }
-        if ('config' in data) {
-            _obj.config = data.config;
-        }
-        if ('components' in data) {
-            _obj.creaeHTML(document.body, data.components);
-        }
-    })
-    .catch(reason => alert(reason));
+try {
+    let _obj = new HtmlByJson();
+    _obj.start();
+} catch(error) {
+    alert('HtmlByJson error in constructor : ' + error)
+}
+// [EOF]
