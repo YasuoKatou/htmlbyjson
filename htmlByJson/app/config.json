@@ -2,7 +2,8 @@
   "root": "body",
   "css": [
     "./htmlByJson/core/css/htmlByJson.css",
-    "./htmlByJson/app/css/test.css"
+    "./htmlByJson/app/css/test.css",
+    "./htmlByJson/core/css/htmlByJson.css"
   ],
   "config": {},
   "child": [

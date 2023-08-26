@@ -5,12 +5,14 @@ class HtmlByJson {
     #configValues = undefined;
     #idManager = undefined;
     #loader = undefined;
+    #cssPathList = undefined
 
     constructor() {
         this.#configValues = {
             css: {default: {layout: {flow: {direction: {horizon: 'HBJ-LAYOUT-H001'
                                                        ,vertical: 'HBJ-LAYOUT-V001'}}}}}
         };
+        this.#cssPathList = [];
         this.#idManager = new this.#RandomManager();
         this.#loader = new this.#LoaderManager(this);
         document.addEventListener('HBJ_ReadConfig', function(event) {
@@ -53,11 +55,16 @@ class HtmlByJson {
     loadCss(list) {
         let headTag = document.head;
         for (let path of list) {
+            if (this.#cssPathList.includes(path)) {
+                console.info('css path [' + path + '] exists.');
+                continue;
+            }
             let css = document.createElement('link');
             css.setAttribute('rel', 'stylesheet');
             css.setAttribute('type', 'text/css');
             css.setAttribute('href', path);
             headTag.appendChild(css)
+            this.#cssPathList.push(path);
         }
     }
 

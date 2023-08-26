@@ -2,6 +2,7 @@ root: body
 css:
   - ./htmlByJson/core/css/htmlByJson.css
   - ./htmlByJson/app/css/test.css
+  - ./htmlByJson/core/css/htmlByJson.css    # for dup check
 config: {}
 child:
   - block-label:
