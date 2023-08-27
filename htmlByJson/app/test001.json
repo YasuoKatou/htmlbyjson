@@ -1,0 +1,160 @@
+{
+  "css": [
+    "./htmlByJson/app/css/test001.css"
+  ],
+  "child": [
+    {
+      "block-label": {
+        "text": "hello HTML By JSON !!"
+      }
+    },
+    {
+      "checkbox": {
+        "label": {
+          "text": "同意する"
+        }
+      }
+    },
+    {
+      "checkbox": {
+        "label": {
+          "text": "同意しない"
+        }
+      }
+    },
+    {
+      "groupbox": {
+        "title": "Group title",
+        "css": "group01",
+        "child": [
+          {
+            "flow-layout": {
+              "direction": "vertical",
+              "child": [
+                {
+                  "flow-layout": {
+                    "direction": "horizon",
+                    "child": [
+                      {
+                        "textbox": {
+                          "label": {
+                            "text": "お名前",
+                            "css": "gp-title"
+                          },
+                          "placeholder": "姓 名"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "flow-layout": {
+                    "direction": "horizon",
+                    "child": [
+                      {
+                        "textbox": {
+                          "label": {
+                            "text": "電話番号",
+                            "css": "gp-title"
+                          },
+                          "placeholder": "999-9999-9999"
+                        }
+                      },
+                      {
+                        "textbox": {
+                          "placeholder": "電話番号２"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "child_bk": [
+          {
+            "textbox": {
+              "label": {
+                "text": "お名前"
+              }
+            },
+            "placeholder": "姓 名"
+          },
+          {
+            "textbox": {
+              "label": {
+                "text": "電話番号"
+              }
+            },
+            "placeholder": "999-9999-9999"
+          }
+        ]
+      }
+    },
+    {
+      "flow-layout": {
+        "direction": "horizon",
+        "child": [
+          {
+            "div": {
+              "css": "square1"
+            }
+          },
+          {
+            "div": {
+              "css": "square1"
+            }
+          },
+          {
+            "div": {
+              "css": "square1"
+            }
+          },
+          {
+            "div": {
+              "css": "square1"
+            }
+          },
+          {
+            "div": {
+              "css": "square1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "flow-layout": {
+        "direction": "vertical",
+        "child": [
+          {
+            "div": {
+              "css": "square2"
+            }
+          },
+          {
+            "div": {
+              "css": "square2"
+            }
+          },
+          {
+            "div": {
+              "css": "square2"
+            }
+          },
+          {
+            "div": {
+              "css": "square2"
+            }
+          },
+          {
+            "div": {
+              "css": "square2"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

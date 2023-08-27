@@ -177,6 +177,8 @@ class HtmlByJson {
                 parent.appendChild(layout.getLayout(key, item[key]));
             } else if ('groupbox' in item) {
                 parent.appendChild(this.createGroupboxElement(item['groupbox']));
+            } else if ('import' in item) {
+                this.#loader.loadConfig(item.import, parent);
             }
         }
     }
@@ -246,6 +248,7 @@ class HtmlByJson {
     readConfig(path, parent) {
         try {
             // alert('HtmlByJson.readConfig : ' + path);
+            console.info('HtmlByJson.readConfig : ' + path)
             this.#loader.loadConfig(path, parent);
         } catch(error) {
             alert('at HtmlByJson.readConfig : ' + error);
@@ -333,13 +336,16 @@ class HtmlByJson {
                             if (res.ok) {
                                 return res.json();
                             } else {
-                                throw new Error(this.path + ' '  + res.statusText);
+                                let message = this.path + ' '  + res.statusText;
+                                console.error(message);
+                                throw new Error(message);
                             }
                         })
                         .then(data => {
                             this.readJson(this, data);
                         })
                         .catch(error => {
+                            console.error(error);
                             this.readError(this, error);
                         });
                 }
