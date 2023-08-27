@@ -37,7 +37,7 @@ class HtmlByJson {
     /**
      * 画面定義ファイルのパスを取得
      */
-    get configPath() {return './htmlByJson/app/config.json';}
+    get configPath() {return './htmlByJson/app/json/config.json';}
 
     set config(value) {
         // TODO クラス変数の値を上書きすること
@@ -94,8 +94,9 @@ class HtmlByJson {
 
     createDivElement(attr) {
         let div = document.createElement('div');
-        if ('css' in attr) {
-            div.classList.add(attr.css);
+        this.appendStyle(div, attr);
+        if ('child' in attr) {
+            this.creaeHTML(div, attr.child);
         }
         return div;
     }
@@ -109,6 +110,25 @@ class HtmlByJson {
             }
         }
         return inp;
+    }
+
+    createPasswordboxElement(attr) {
+        let inp = document.createElement('input');
+        inp.setAttribute("type", "password");
+        if ('placeholder' in inp) {
+            if ('placeholder' in attr) {
+                inp.placeholder = attr['placeholder'];
+            }
+        }
+        return inp;
+    }
+
+    createButtonElement(attr) {
+        let btn = document.createElement('button');
+        if ('caption' in attr) {
+            btn.innerHTML = attr.caption;
+        }
+        return btn;
     }
 
     createCheckboxElement(attr) {
@@ -169,8 +189,16 @@ class HtmlByJson {
                     parent.appendChild(this.createLabelElement(wk.label));
                 }
                 parent.appendChild(this.createTextboxElement(wk));
+            } else if ('password' in item) {
+                let wk = item['password'];
+                if ('label' in wk) {
+                    parent.appendChild(this.createLabelElement(wk.label));
+                }
+                parent.appendChild(this.createPasswordboxElement(wk));
             } else if ('checkbox' in item) {
                 parent.appendChild(this.createCheckboxElement(item['checkbox']));
+            } else if ('button' in item) {
+                parent.appendChild(this.createButtonElement(item['button']));
             } else if ('flow-layout' in item) {
                 let key = 'flow-layout';
                 let layout = new this.#Layout(this);
@@ -225,6 +253,7 @@ class HtmlByJson {
             if (layoutType === 'flow-layout') {
                 let element = document.createElement('div');
                 element.classList.add(this.#core.getFlowLayoutStyle(attr['direction']));
+                this.#core.appendStyle(element, attr);
                 if ('child' in attr) {
                     this.#core.creaeHTML(element, attr.child);
                 }

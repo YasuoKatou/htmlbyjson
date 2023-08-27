@@ -7,7 +7,7 @@
   "config": {},
   "child": [
     {
-      "import": "./htmlByJson/app/test001.json"
+      "import": "./htmlByJson/app/json/login001.json"
     }
   ]
 }

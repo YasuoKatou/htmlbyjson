@@ -3,8 +3,8 @@
 ## 画面定義ファイルの変換（yaml to JSON）
 yamlで作成した画面定義ファイルをJSON形式に変換する必要がある。
 ```
-$ cd 画面定義ファイルのディレクトリ
-$ yq -o json ./config.yaml > config.json
+$ cd 画面定義ファイル(yaml)のディレクトリ
+$ yq -o json ./config.yaml > ../json/config.json
 ```
 
 ## TODO

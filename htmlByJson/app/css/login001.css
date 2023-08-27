@@ -1,0 +1,34 @@
+.vflex {
+    /*background-color: yellow;*/
+}
+.hflex {
+    /*background-color: orange;*/
+    justify-content: space-evenly;
+}
+
+.hflex > div {
+    /*background-color: blue;*/
+}
+
+.hflex label {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.hflex:not(:nth-child(1)) {
+    margin-top: 2rem;
+}
+
+.hflex:last-child {
+    margin-top: 4rem;
+}
+
+.loginUserLabel {
+    width: 10rem;
+    text-align: right;
+}
+
+.loginPasswdLabel {
+    width: 10rem;
+    text-align: right;
+}

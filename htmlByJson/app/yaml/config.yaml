@@ -4,4 +4,5 @@ css:
   - ./htmlByJson/core/css/htmlByJson.css    # for dup check
 config: {}
 child:
-  - import: ./htmlByJson/app/test001.json
+  #- import: ./htmlByJson/app/json/test001.json
+  - import: ./htmlByJson/app/json/login001.json

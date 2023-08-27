@@ -1,0 +1,73 @@
+{
+  "css": [
+    "./htmlByJson/app/css/login001.css"
+  ],
+  "child": [
+    {
+      "flow-layout": {
+        "direction": "vertical",
+        "css": "vflex",
+        "child": [
+          {
+            "flow-layout": {
+              "direction": "horizon",
+              "css": "hflex",
+              "child": [
+                {
+                  "div": {
+                    "child": [
+                      {
+                        "textbox": {
+                          "label": {
+                            "text": "ユーザID",
+                            "css": "loginUserLabel"
+                          },
+                          "placeholder": "mail/user id"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "flow-layout": {
+              "direction": "horizon",
+              "css": "hflex",
+              "child": [
+                {
+                  "div": {
+                    "child": [
+                      {
+                        "password": {
+                          "label": {
+                            "text": "パスワード",
+                            "css": "loginPasswdLabel"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "flow-layout": {
+              "direction": "horizon",
+              "css": "hflex",
+              "child": [
+                {
+                  "button": {
+                    "caption": "ログイン"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
