@@ -7,21 +7,30 @@ webアプリケーションは、複数のページで構成することが多�
 従って、アプリケーション利用開始時にhtmlタグを１回作成し、ページの切替えのためのサーバ呼び出しを行わないようにする。
 
 ## サポートするタグの一覧
-|json|html|memo|
-|:---|:---|:---|
-|block-label|p||
-|button|button||
-|checkbox|input type=checkbox||
-|div|div||
-|flow-layout|div||
-|groupbox|fieldset, legend||
-|link|a|実装予定|
-|textbox|input type=text||
-|password|input type=password||
+|json|html|css|memo|
+|:---|:---|:--:|:---|
+|block-label|p|○||
+|button|button|||
+|checkbox|input type=checkbox|○||
+|div|div|||
+|flow-layout|div|||
+|groupbox|fieldset, legend|||
+|link|a||実装予定|
+|textbox|input type=text|○||
+|password|input type=password|○||
 
 ### block-label
 TODO サンプルを作成
-
+JSON
+```
+block-label:
+  text: hello HTML By JSON !!
+  css: block-label-style
+```
+html
+```
+<p class="block-label-style">hello HTML By JSON !!</p>
+```
 ### button
 TODO サンプルを作成
 
@@ -30,12 +39,14 @@ JSON
 ```
 checkbox:
   label:
+    css: label-style
     text: 同意する
+  css: checkbox-style
 ```
 html
 ```
-<label for="ID-00000">
-    <input type="checkbox" id="ID-00000">
+<label class="label-style" for="ID-00000">
+    <input type="checkbox" class="checkbox-style" id="ID-00000">
     同意する
 </label>
 ```
@@ -59,11 +70,12 @@ textbox:
     text: お名前
     css: gp-title
   placeholder: 姓 名
+  css: textbox-style
 ```
 html
 ```
 <label class="gp-title">お名前</label>
-<input type="text" placeholder="姓 名">
+<input type="text" class="textbox-style" placeholder="姓 名">
 ```
 ### password
 JSON
@@ -72,11 +84,12 @@ password:
   label:
     text: パスワード
     css: loginPasswdLabel
+  css: password-style
 ```
 html
 ```
 <label class="loginPasswdLabel">パスワード</label>
-<input type="password">
+<input type="password" class="password-style">
 ```
 
 ## 定義の再利用

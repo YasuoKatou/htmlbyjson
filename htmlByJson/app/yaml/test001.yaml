@@ -3,12 +3,17 @@ css:
 child:
   - block-label:
       text: hello HTML By JSON !!
+      css: block-label-style
   - checkbox:
       label:
+        css: label-style
         text: 同意する
+      css: checkbox-style
   - checkbox:
       label:
+        css: label-style
         text: 同意しない
+      css: checkbox-style
   - groupbox:
       title: Group title
       css: group01
@@ -24,6 +29,7 @@ child:
                           text: お名前
                           css: gp-title
                         placeholder: 姓 名
+                        css: textbox-style
               - flow-layout:
                   direction: horizon
                   child:
@@ -32,8 +38,10 @@ child:
                           text: 電話番号
                           css: gp-title
                         placeholder: 999-9999-9999
+                        css: textbox-style
                     - textbox:
                         placeholder: 電話番号２
+                        css: textbox-style
       child_bk:
         - textbox:
             label:

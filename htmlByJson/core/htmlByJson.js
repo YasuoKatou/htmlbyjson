@@ -82,6 +82,7 @@ class HtmlByJson {
     createBlockLabelElement(attr) {
         let p = document.createElement('p');
         p.appendChild(document.createTextNode(attr['text']));
+        this.appendStyle(p, attr);
         return p;
     }
 
@@ -104,6 +105,7 @@ class HtmlByJson {
     createTextboxElement(attr) {
         let inp = document.createElement('input');
         inp.setAttribute("type", "text");
+        this.appendStyle(inp, attr);
         if ('placeholder' in inp) {
             if ('placeholder' in attr) {
                 inp.placeholder = attr['placeholder'];
@@ -115,6 +117,7 @@ class HtmlByJson {
     createPasswordboxElement(attr) {
         let inp = document.createElement('input');
         inp.setAttribute("type", "password");
+        this.appendStyle(inp, attr);
         if ('placeholder' in inp) {
             if ('placeholder' in attr) {
                 inp.placeholder = attr['placeholder'];
@@ -137,7 +140,8 @@ class HtmlByJson {
         let label = this.createLabelElement(attr['label']);
         label.htmlFor = id;
         let cbx = document.createElement('input');
-        cbx.setAttribute("type", "checkbox");
+        cbx.setAttribute('type', 'checkbox');
+        this.appendStyle(cbx, attr)
         cbx.id = id;
         label.prepend(cbx);     // 視覚をラベルの左に追加
         return label;

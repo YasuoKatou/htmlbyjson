@@ -5,21 +5,26 @@
   "child": [
     {
       "block-label": {
-        "text": "hello HTML By JSON !!"
+        "text": "hello HTML By JSON !!",
+        "css": "block-label-style"
       }
     },
     {
       "checkbox": {
         "label": {
+          "css": "label-style",
           "text": "同意する"
-        }
+        },
+        "css": "checkbox-style"
       }
     },
     {
       "checkbox": {
         "label": {
+          "css": "label-style",
           "text": "同意しない"
-        }
+        },
+        "css": "checkbox-style"
       }
     },
     {
@@ -41,7 +46,8 @@
                             "text": "お名前",
                             "css": "gp-title"
                           },
-                          "placeholder": "姓 名"
+                          "placeholder": "姓 名",
+                          "css": "textbox-style"
                         }
                       }
                     ]
@@ -57,12 +63,14 @@
                             "text": "電話番号",
                             "css": "gp-title"
                           },
-                          "placeholder": "999-9999-9999"
+                          "placeholder": "999-9999-9999",
+                          "css": "textbox-style"
                         }
                       },
                       {
                         "textbox": {
-                          "placeholder": "電話番号２"
+                          "placeholder": "電話番号２",
+                          "css": "textbox-style"
                         }
                       }
                     ]

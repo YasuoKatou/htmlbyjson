@@ -26,6 +26,7 @@ child:
                         label:
                           text: パスワード
                           css: loginPasswdLabel
+                        css: password-style
         - flow-layout:
             direction: horizon
             css: hflex
