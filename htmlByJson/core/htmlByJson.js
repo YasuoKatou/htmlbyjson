@@ -327,7 +327,7 @@ class HtmlByJson {
                     return;
                 }
             }
-            alert('TODO terminated event');
+            console.info('TODO terminated event');
         }
 
         #ViewConfigLoader = class {

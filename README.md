@@ -54,7 +54,19 @@ html
 </label>
 ```
 ### div
-TODO サンプルを作成
+利用可能な属性：```ccs``` ```child```
+
+```
+div:
+  css: square1
+  child:
+    etc...
+```
+```
+<div class="square1">
+   etc...
+</div>
+```
 
 ### flow-layout
 TODO サンプルを作成
