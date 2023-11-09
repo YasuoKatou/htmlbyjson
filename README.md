@@ -7,20 +7,21 @@ webアプリケーションは、複数のページで構成することが多�
 従って、アプリケーション利用開始時にhtmlタグを１回作成し、ページの切替えのためのサーバ呼び出しを行わないようにする。
 
 ## サポートするタグの一覧
-|json|html|css|memo|
-|:---|:---|:--:|:---|
-|block-label|p|○||
-|button|button|||
-|checkbox|input type=checkbox|○||
-|div|div|||
-|flow-layout|div|||
-|groupbox|fieldset, legend|||
-|link|a||実装予定|
-|textbox|input type=text|○||
-|password|input type=password|○||
+|json|html|memo|
+|:---|:---|:---|
+|block-label|p||
+|button|button||
+|checkbox|input type=checkbox||
+|div|div||
+|flow-layout|div||
+|groupbox|fieldset, legend||
+|link|a|実装予定|
+|textbox|input type=text||
+|password|input type=password||
 
 ### block-label
-TODO サンプルを作成
+利用可能な属性：```ccs``` ```text```
+
 JSON
 ```
 block-label:
@@ -35,6 +36,8 @@ html
 TODO サンプルを作成
 
 ### checkbox
+利用可能な属性：```ccs``` ```label```(```css``` ```text```)
+
 JSON
 ```
 checkbox:
@@ -63,6 +66,8 @@ TODO サンプルを作成
 TODO サンプルを作成
 
 ### textbox
+利用可能な属性：```ccs``` ```label```(```css``` ```text```) ```placeholder```
+
 JSON
 ```
 textbox:
@@ -78,18 +83,21 @@ html
 <input type="text" class="textbox-style" placeholder="姓 名">
 ```
 ### password
+利用可能な属性：```ccs``` ```label```(```css``` ```text```) ```placeholder```
+
 JSON
 ```
 password:
   label:
     text: パスワード
     css: loginPasswdLabel
+  placeholder: パスワードを入力
   css: password-style
 ```
 html
 ```
 <label class="loginPasswdLabel">パスワード</label>
-<input type="password" class="password-style">
+<input type="password" class="password-style" placeholder="パスワードを入力">
 ```
 
 ## 定義の再利用

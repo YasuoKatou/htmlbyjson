@@ -45,6 +45,7 @@
                             "text": "パスワード",
                             "css": "loginPasswdLabel"
                           },
+                          "placeholder": "パスワードを入力",
                           "css": "password-style"
                         }
                       }

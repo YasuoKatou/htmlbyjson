@@ -26,6 +26,7 @@ child:
                         label:
                           text: パスワード
                           css: loginPasswdLabel
+                        placeholder: パスワードを入力
                         css: password-style
         - flow-layout:
             direction: horizon
