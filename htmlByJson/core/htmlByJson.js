@@ -6,6 +6,7 @@ class HtmlByJson {
     #idManager = undefined;
     #loader = undefined;
     #cssPathList = undefined
+    #tagCreators = undefined
 
     constructor() {
         this.#configValues = {
@@ -15,6 +16,8 @@ class HtmlByJson {
         this.#cssPathList = [];
         this.#idManager = new this.#RandomManager();
         this.#loader = new this.#LoaderManager(this);
+        this._initTagCreators();
+        
         document.addEventListener('HBJ_ReadConfig', function(event) {
             // alert('event : HBJ_ReadConfig');
             let option = event.detail;
@@ -27,6 +30,175 @@ class HtmlByJson {
             let option = event.detail;
             option.self.doCreateHTML(option.parent, option.json);
         });
+    }
+
+    get nextId() { return this.#idManager.idBySequence; }
+
+    #TagCreatorBase = class {
+        #owner = undefined
+        constructor(owner) {
+            this.#owner = owner
+        }
+        setCss(tag, attr) {
+            if ('css' in attr) {
+                tag.classList.add(attr.css);
+            }
+        }
+        createTextNode(s) {
+            return document.createTextNode(s);
+        }
+        appendChild(parent, tag) { parent.appendChild(tag); }
+    }
+
+    #BlockLabelCreator = class {
+        constructor(owner) { this.owner = owner; }
+        createTag(parent, attr) {
+            let p = document.createElement('p');
+            p.appendChild(this.createTextNode(attr['text']));
+            this.setCss(p, attr);
+            this.appendChild(parent, p);
+            return p;
+        }
+    }
+    #ButtonCreator = class {
+        constructor(owner) { this.owner = owner; }
+        createTag(parent, attr) {
+            let btn = document.createElement('button');
+            if ('caption' in attr) {
+                btn.innerHTML = attr.caption;
+            }
+            this.setCss(btn, attr);
+            this.appendChild(parent, btn);
+            return btn;
+        }
+    }
+    #CheckboxCreator = class {
+        constructor(owner) { this.owner = owner; }
+        createTag(parent, attr) {
+            let id = this.owner.#idManager.idBySequence;
+            // alert(id);
+            let label = this.createLabel(undefined, attr['label']);
+            label.htmlFor = id;
+            let cbx = document.createElement('input');
+            cbx.setAttribute('type', 'checkbox');
+            this.setCss(cbx, attr)
+            cbx.id = id;
+            label.prepend(cbx);     // 四角形をラベルの左に追加
+            this.appendChild(parent, label);
+            return label;
+        }
+    }
+    #DivCreator = class {
+        constructor(owner) { this.owner = owner; }
+        createTag(parent, attr) {
+            let div = document.createElement('div');
+            this.setCss(div, attr);
+            this.appendChild(parent, div);
+            return div;
+        }
+    }
+    #FlowlayoutCreator = class {
+        constructor(owner) { this.owner = owner; }
+        createTag(parent, attr) {
+            let element = document.createElement('div');
+            element.classList.add(this.owner.getFlowLayoutStyle(attr['direction']));
+            this.setCss(element, attr);
+            this.appendChild(parent, element);
+            return element;
+        }
+    }
+    #GroupboxCreator = class {
+        constructor(owner) { this.owner = owner; }
+        createTag(parent, attr) {
+            let legend = document.createElement('legend');
+            legend.appendChild(this.createTextNode(attr['title']));
+            let fieldset = document.createElement('fieldset');
+            fieldset.appendChild(legend);
+            this.setCss(fieldset, attr);
+            this.appendChild(parent, fieldset);
+            return fieldset;
+        }
+    }
+    #LabelCreator = class {
+        constructor(owner) { this.owner = owner; }
+        createTag(parent, attr) {
+            let label = document.createElement('label');
+            label.appendChild(document.createTextNode(attr['text']));
+            this.setCss(label, attr);
+            if (parent) {
+                this.appendChild(parent, label);
+            }
+            return label;
+        }
+    }
+    #PasswordCreator = class {
+        constructor(owner) { this.owner = owner; }
+        createTag(parent, attr) {
+            if ('label' in attr) {
+                this.createLabel(parent, attr.label);
+            }
+            let inp = document.createElement('input');
+            inp.setAttribute("type", "password");
+            this.setCss(inp, attr);
+            if ('placeholder' in inp) {
+                if ('placeholder' in attr) {
+                    inp.placeholder = attr['placeholder'];
+                }
+            }
+            this.appendChild(parent, inp);
+            return inp;
+        }
+    }
+    #TextboxCreator = class {
+        constructor(owner) { this.owner = owner; }
+        createTag(parent, attr) {
+            if ('label' in attr) {
+                this.createLabel(parent, attr.label);
+            }
+            let inp = document.createElement('input');
+            inp.setAttribute("type", "text");
+            this.setCss(inp, attr);
+            if ('placeholder' in inp) {
+                if ('placeholder' in attr) {
+                    inp.placeholder = attr['placeholder'];
+                }
+            }
+            this.appendChild(parent, inp);
+            return inp;
+        }
+    }
+    _initTagCreators() {
+        this.#tagCreators = {};
+
+        Object.setPrototypeOf(this.#BlockLabelCreator.prototype, this.#TagCreatorBase.prototype);
+        this.#tagCreators['block-label'] = new this.#BlockLabelCreator(this);
+
+        Object.setPrototypeOf(this.#ButtonCreator.prototype, this.#TagCreatorBase.prototype);
+        this.#tagCreators['button'] = new this.#ButtonCreator(this);
+
+        Object.setPrototypeOf(this.#CheckboxCreator.prototype, this.#TagCreatorBase.prototype);
+        this.#CheckboxCreator.prototype.createLabel = this.#LabelCreator.prototype.createTag;
+        this.#tagCreators['checkbox'] = new this.#CheckboxCreator(this);
+
+        Object.setPrototypeOf(this.#DivCreator.prototype, this.#TagCreatorBase.prototype);
+        this.#tagCreators['div'] = new this.#DivCreator(this);
+
+        Object.setPrototypeOf(this.#FlowlayoutCreator.prototype, this.#TagCreatorBase.prototype);
+        this.#tagCreators['flow-layout'] = new this.#FlowlayoutCreator(this);
+
+        Object.setPrototypeOf(this.#GroupboxCreator.prototype, this.#TagCreatorBase.prototype);
+        this.#tagCreators['groupbox'] = new this.#GroupboxCreator(this);
+
+        Object.setPrototypeOf(this.#LabelCreator.prototype, this.#TagCreatorBase.prototype);
+        this.#tagCreators['label'] = new this.#LabelCreator(this);
+
+        Object.setPrototypeOf(this.#PasswordCreator.prototype, this.#TagCreatorBase.prototype);
+        this.#PasswordCreator.prototype.createLabel = this.#LabelCreator.prototype.createTag;
+        this.#tagCreators['password'] = new this.#PasswordCreator(this);
+
+        Object.setPrototypeOf(this.#TextboxCreator.prototype, this.#TagCreatorBase.prototype);
+        this.#TextboxCreator.prototype.createLabel = this.#LabelCreator.prototype.createTag;
+        this.#tagCreators['textbox'] = new this.#TextboxCreator(this);
     }
 
     start() {
@@ -68,97 +240,6 @@ class HtmlByJson {
         }
     }
 
-    appendStyle(element, attr) {
-        if ('css' in attr) {
-            element.classList.add(attr.css);
-        }
-    }
-
-    /**
-     * ラベルコンポーネントを作成する
-     * @param {*} attr ラベルコンポーネントの属性
-     * @returns pタグ
-     */
-    createBlockLabelElement(attr) {
-        let p = document.createElement('p');
-        p.appendChild(document.createTextNode(attr['text']));
-        this.appendStyle(p, attr);
-        return p;
-    }
-
-    createLabelElement(attr) {
-        let label = document.createElement('label');
-        label.appendChild(document.createTextNode(attr['text']));
-        this.appendStyle(label, attr);
-        return label;
-    }
-
-    createDivElement(attr) {
-        let div = document.createElement('div');
-        this.appendStyle(div, attr);
-        if ('child' in attr) {
-            this.creaeHTML(div, attr.child);
-        }
-        return div;
-    }
-
-    createTextboxElement(attr) {
-        let inp = document.createElement('input');
-        inp.setAttribute("type", "text");
-        this.appendStyle(inp, attr);
-        if ('placeholder' in inp) {
-            if ('placeholder' in attr) {
-                inp.placeholder = attr['placeholder'];
-            }
-        }
-        return inp;
-    }
-
-    createPasswordboxElement(attr) {
-        let inp = document.createElement('input');
-        inp.setAttribute("type", "password");
-        this.appendStyle(inp, attr);
-        if ('placeholder' in inp) {
-            if ('placeholder' in attr) {
-                inp.placeholder = attr['placeholder'];
-            }
-        }
-        return inp;
-    }
-
-    createButtonElement(attr) {
-        let btn = document.createElement('button');
-        if ('caption' in attr) {
-            btn.innerHTML = attr.caption;
-        }
-        return btn;
-    }
-
-    createCheckboxElement(attr) {
-        let id = this.#idManager.idBySequence;
-        // alert(id);
-        let label = this.createLabelElement(attr['label']);
-        label.htmlFor = id;
-        let cbx = document.createElement('input');
-        cbx.setAttribute('type', 'checkbox');
-        this.appendStyle(cbx, attr)
-        cbx.id = id;
-        label.prepend(cbx);     // 視覚をラベルの左に追加
-        return label;
-    }
-
-    createGroupboxElement(attr) {
-        let legend = document.createElement('legend');
-        legend.appendChild(document.createTextNode(attr['title']));
-        let fieldset = document.createElement('fieldset');
-        fieldset.appendChild(legend);
-        if ('child' in attr) {
-            this.creaeHTML(fieldset, attr.child);
-        }
-        this.appendStyle(fieldset, attr);
-        return fieldset;
-    }
-
     doCreateHTML(parent, data) {
         // alert('HtmlByJson.doCreateHTML');
         if ('css' in data) {
@@ -180,37 +261,18 @@ class HtmlByJson {
     }
 
     creaeHTML(parent, data) {
-        // alert(JSON.stringify(data));
-        // alert(parent);
         for (let item of data) {
-            if ('block-label' in item) {
-                parent.appendChild(this.createBlockLabelElement(item['block-label']));
-            } else if ('div' in item) {
-                parent.appendChild(this.createDivElement(item['div']));
-            } else if ('textbox' in item) {
-                let wk = item['textbox'];
-                if ('label' in wk) {
-                    parent.appendChild(this.createLabelElement(wk.label));
+            let key = Object.keys(item)[0];
+            let attr = item[key];
+            if (key in this.#tagCreators) {
+                let element = this.#tagCreators[key].createTag(parent, attr);
+                if ('child' in attr) {
+                    this.creaeHTML(element, attr.child);
                 }
-                parent.appendChild(this.createTextboxElement(wk));
-            } else if ('password' in item) {
-                let wk = item['password'];
-                if ('label' in wk) {
-                    parent.appendChild(this.createLabelElement(wk.label));
-                }
-                parent.appendChild(this.createPasswordboxElement(wk));
-            } else if ('checkbox' in item) {
-                parent.appendChild(this.createCheckboxElement(item['checkbox']));
-            } else if ('button' in item) {
-                parent.appendChild(this.createButtonElement(item['button']));
-            } else if ('flow-layout' in item) {
-                let key = 'flow-layout';
-                let layout = new this.#Layout(this);
-                parent.appendChild(layout.getLayout(key, item[key]));
-            } else if ('groupbox' in item) {
-                parent.appendChild(this.createGroupboxElement(item['groupbox']));
-            } else if ('import' in item) {
-                this.#loader.loadConfig(item.import, parent);
+            } else if (key === 'import') {
+                this.#loader.loadConfig(attr, parent);
+            } else {
+                alert(key + ' is not supported.');
             }
         }
     }
@@ -244,25 +306,6 @@ class HtmlByJson {
         get idBySequence() {
             this.#idMax = this.#idMax + 1;
             return this.#PREFIX + ('0'.repeat(this.#MAX_ID_RANDAM_DIGIT) + this.#idMax).slice(-this.#MAX_ID_RANDAM_DIGIT);
-        }
-    };
-
-    #Layout = class  {
-        #core = undefined;
-        constructor(core) {
-            this.#core = core;
-        }
-
-        getLayout(layoutType, attr) {
-            if (layoutType === 'flow-layout') {
-                let element = document.createElement('div');
-                element.classList.add(this.#core.getFlowLayoutStyle(attr['direction']));
-                this.#core.appendStyle(element, attr);
-                if ('child' in attr) {
-                    this.#core.creaeHTML(element, attr.child);
-                }
-                return element;
-            }
         }
     };
 
