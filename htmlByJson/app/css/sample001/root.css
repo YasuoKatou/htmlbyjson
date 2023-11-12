@@ -1,0 +1,21 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+}
+
+.navi-view {
+    width: 20rem;
+    height: 100vh;
+    background-color: aqua;
+}
+
+.content-view {
+    flex: 1;
+    height: 100vh;
+    background-color: lightgray;
+}

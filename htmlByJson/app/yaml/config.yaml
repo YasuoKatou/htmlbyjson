@@ -1,10 +1,12 @@
 root: body
 css:
   - ./htmlByJson/core/css/htmlByJson.css
-  - ./htmlByJson/core/css/htmlByJson.css    # for dup check
+  #- ./htmlByJson/core/css/htmlByJson.css    # for dup check
+  - ./htmlByJson/app/css/sample001/root.css
 config: {}
 child:
   #- import: ./htmlByJson/app/json/test001.json
-  - import: ./htmlByJson/app/json/login001.json
+  #- import: ./htmlByJson/app/json/login001.json
+  - import: ./htmlByJson/app/json/sample001/root.json
 
 #[EOF]

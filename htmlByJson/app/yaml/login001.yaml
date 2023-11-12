@@ -34,3 +34,4 @@ child:
             child:
               - button:
                   caption: ログイン
+#[EOF]

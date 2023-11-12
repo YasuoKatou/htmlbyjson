@@ -1,0 +1,21 @@
+{
+  "child": [
+    {
+      "flow-layout": {
+        "direction": "horizon",
+        "child": [
+          {
+            "div": {
+              "css": "navi-view"
+            }
+          },
+          {
+            "div": {
+              "css": "content-view"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
