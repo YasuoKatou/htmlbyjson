@@ -1,0 +1,9 @@
+{
+  "child": [
+    {
+      "div": {
+        "css": "content-view"
+      }
+    }
+  ]
+}

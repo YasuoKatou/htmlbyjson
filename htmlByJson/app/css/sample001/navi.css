@@ -1,0 +1,44 @@
+.navi-menu_group {
+    position: relative;
+    background-color: aquamarine;
+}
+
+.navi-checkbox {
+    display: none;
+}
+
+.navi-title {
+    display: block;
+    font-weight: bolder;
+}
+
+.navi-title::before {
+    content: "+";
+    position: absolute;
+    top: 0;
+    right: 1rem;
+}
+
+.navi-sub-menu-1 {
+    text-indent: 1em;
+    background-color: aqua;
+    font-weight: normal;
+    font-size: large;
+}
+
+.navi-content {
+    height: 0;
+    visibility: hidden;
+}
+
+.navi-checkbox:checked + .navi-title::before {
+    content: "-";
+    position: absolute;
+    top: 0;
+    right: 1rem;
+}
+
+.navi-checkbox:checked + .navi-title + .navi-content {
+    height: auto;
+    visibility: visible;
+}

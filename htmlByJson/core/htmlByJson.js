@@ -39,10 +39,25 @@ class HtmlByJson {
         constructor(owner) {
             this.#owner = owner
         }
+        setId(tag, attr) {
+            if ('id' in attr) {
+                tag.id = attr.id;
+            }
+        }
         setCss(tag, attr) {
             if ('css' in attr) {
-                tag.classList.add(attr.css);
+                if (Array.isArray(attr.css)) {
+                    for (let item of attr.css) {
+                        tag.classList.add(item);
+                    }
+                } else {
+                    tag.classList.add(attr.css);
+                }
             }
+        }
+        setAttributes(tag, attr) {
+            this.setCss(tag, attr);
+            this.setId(tag, attr);
         }
         createTextNode(s) {
             return document.createTextNode(s);
@@ -55,7 +70,7 @@ class HtmlByJson {
         createTag(parent, attr) {
             let p = document.createElement('p');
             p.appendChild(this.createTextNode(attr['text']));
-            this.setCss(p, attr);
+            this.setAttributes(p, attr);
             this.appendChild(parent, p);
             return p;
         }
@@ -67,7 +82,7 @@ class HtmlByJson {
             if ('caption' in attr) {
                 btn.innerHTML = attr.caption;
             }
-            this.setCss(btn, attr);
+            this.setAttributes(btn, attr);
             this.appendChild(parent, btn);
             return btn;
         }
@@ -83,7 +98,15 @@ class HtmlByJson {
             cbx.setAttribute('type', 'checkbox');
             this.setCss(cbx, attr)
             cbx.id = id;
-            label.prepend(cbx);     // 四角形をラベルの左に追加
+            let inLabel = true;
+            if ('in-label' in attr) {
+                inLabel = attr['in-label'];
+            }
+            if (inLabel) {
+                label.prepend(cbx);     // 四角形をラベルの左に追加
+            } else {
+                this.appendChild(parent, cbx);
+            }
             this.appendChild(parent, label);
             return label;
         }
@@ -92,7 +115,7 @@ class HtmlByJson {
         constructor(owner) { this.owner = owner; }
         createTag(parent, attr) {
             let div = document.createElement('div');
-            this.setCss(div, attr);
+            this.setAttributes(div, attr);
             this.appendChild(parent, div);
             return div;
         }
@@ -102,7 +125,7 @@ class HtmlByJson {
         createTag(parent, attr) {
             let element = document.createElement('div');
             element.classList.add(this.owner.getFlowLayoutStyle(attr['direction']));
-            this.setCss(element, attr);
+            this.setAttributes(element, attr);
             this.appendChild(parent, element);
             return element;
         }
@@ -114,7 +137,7 @@ class HtmlByJson {
             legend.appendChild(this.createTextNode(attr['title']));
             let fieldset = document.createElement('fieldset');
             fieldset.appendChild(legend);
-            this.setCss(fieldset, attr);
+            this.setAttributes(fieldset, attr);
             this.appendChild(parent, fieldset);
             return fieldset;
         }
@@ -124,7 +147,7 @@ class HtmlByJson {
         createTag(parent, attr) {
             let label = document.createElement('label');
             label.appendChild(document.createTextNode(attr['text']));
-            this.setCss(label, attr);
+            this.setAttributes(label, attr);
             if (parent) {
                 this.appendChild(parent, label);
             }

@@ -1,0 +1,99 @@
+{
+  "css": [
+    "./htmlByJson/app/css/sample001/navi.css"
+  ],
+  "child": [
+    {
+      "div": {
+        "id": "sample001-navi",
+        "css": "navi-view",
+        "child": [
+          {
+            "div": {
+              "css": "navi-menu_group",
+              "child": [
+                {
+                  "checkbox": {
+                    "in-label": false,
+                    "css": "navi-checkbox",
+                    "label": {
+                      "css": "navi-title",
+                      "text": "国語"
+                    }
+                  }
+                },
+                {
+                  "div": {
+                    "css": "navi-content",
+                    "child": [
+                      {
+                        "block-label": {
+                          "text": "現代国語",
+                          "css": "navi-sub-menu-1"
+                        }
+                      },
+                      {
+                        "block-label": {
+                          "text": "古文",
+                          "css": "navi-sub-menu-1"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "div": {
+              "css": "navi-menu_group",
+              "child": [
+                {
+                  "checkbox": {
+                    "in-label": false,
+                    "css": "navi-checkbox",
+                    "label": {
+                      "css": "navi-title",
+                      "text": "数学"
+                    }
+                  }
+                },
+                {
+                  "div": {
+                    "css": "navi-content",
+                    "child": [
+                      {
+                        "block-label": {
+                          "text": "数Ⅰ",
+                          "css": "navi-sub-menu-1"
+                        }
+                      },
+                      {
+                        "block-label": {
+                          "text": "数ⅡA",
+                          "css": "navi-sub-menu-1"
+                        }
+                      },
+                      {
+                        "block-label": {
+                          "text": "数ⅡB",
+                          "css": "navi-sub-menu-1"
+                        }
+                      },
+                      {
+                        "block-label": {
+                          "text": "数Ⅲ",
+                          "css": "navi-sub-menu-1"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

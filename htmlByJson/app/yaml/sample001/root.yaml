@@ -2,8 +2,6 @@ child:
   - flow-layout:
       direction: horizon
       child:
-        - div:
-            css: navi-view
-        - div:
-            css: content-view
+        - import: ./htmlByJson/app/json/sample001/navi.json
+        - import: ./htmlByJson/app/json/sample001/content.json
 #[EOF]

@@ -5,14 +5,10 @@
         "direction": "horizon",
         "child": [
           {
-            "div": {
-              "css": "navi-view"
-            }
+            "import": "./htmlByJson/app/json/sample001/navi.json"
           },
           {
-            "div": {
-              "css": "content-view"
-            }
+            "import": "./htmlByJson/app/json/sample001/content.json"
           }
         ]
       }
