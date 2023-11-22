@@ -20,9 +20,9 @@ webアプリケーションは、複数のページで構成することが多�
 |password|input type=password||
 
 ### block-label
-利用可能な属性：```ccs``` ```text```
+利用可能な属性：```ccs``` ```id``` ```text```
 
-JSON
+YAML
 ```
 block-label:
   text: hello HTML By JSON !!
@@ -36,9 +36,9 @@ html
 TODO サンプルを作成
 
 ### checkbox
-利用可能な属性：```ccs``` ```label```(```css``` ```text```)
+利用可能な属性：```ccs``` ```in-label(default:true)``` ```label```(```css``` ```text```)
 
-JSON
+YAML
 ```
 checkbox:
   label:
@@ -54,8 +54,9 @@ html
 </label>
 ```
 ### div
-利用可能な属性：```ccs``` ```child```
+利用可能な属性：```ccs``` ```child``` ```id```
 
+YAML
 ```
 div:
   css: square1
@@ -80,7 +81,7 @@ TODO サンプルを作成
 ### textbox
 利用可能な属性：```ccs``` ```label```(```css``` ```text```) ```placeholder```
 
-JSON
+YAML
 ```
 textbox:
   label:
@@ -97,7 +98,7 @@ html
 ### password
 利用可能な属性：```ccs``` ```label```(```css``` ```text```) ```placeholder```
 
-JSON
+YAML
 ```
 password:
   label:
