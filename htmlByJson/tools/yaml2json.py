@@ -2,8 +2,8 @@ import json
 import pathlib
 import yaml
 
-_YAML_ROOT = './yaml'
-_JSON_ROOT = './json'
+_YAML_ROOT = './../app/yaml'
+_JSON_ROOT = './../app/json'
 
 p = pathlib.Path(__file__).parent
 jrp = p / _JSON_ROOT
