@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import functools
 import os
 import pathlib
 import yaml
@@ -8,8 +9,8 @@ import yaml
 '''
 _template_html_path = './htmlByJson/tools/createHtml/template.html'
 #_out_html_path      = './test001.html'
-_out_html_path      = './login001.html'
-#_out_html_path      = './sample001.html'
+#_out_html_path      = './login001.html'
+_out_html_path      = './sample001.html'
 _config_path        = './htmlByJson/app/yaml/config.yaml'
 
 class HtmlDocument:
@@ -81,6 +82,16 @@ class CreateHtml:
             yd = yaml.safe_load(yf)
         return yd
 
+    def _childs(f):
+        @functools.wraps(f)
+        def _wrapper(*args, **keywords):
+            v = f(*args, **keywords)
+            item = args[2]
+            if 'child' in item:
+                args[0]._create(v, item['child'])
+            return v
+        return _wrapper
+
     def _import(self, parent, item):
         yd = self._readYaml(item)
         if 'css' in yd:
@@ -127,6 +138,7 @@ class CreateHtml:
             label['for'] = id
             parent.append(label)
 
+    @_childs
     def _createFlowlayout(self, parent, item):
         div = self._document.createElement('div')
         self._setAttr(div, item)
@@ -136,16 +148,16 @@ class CreateHtml:
         else:
             div['class'] = default_css
         parent.append(div)
-        if 'child' in item:
-            self._create(div, item['child'])
+        return div
 
+    @_childs
     def _createDiv(self, parent, item):
         div = self._document.createElement('div')
         self._setAttr(div, item)
         parent.append(div)
-        if 'child' in item:
-            self._create(div, item['child'])
+        return div
 
+    @_childs
     def _createGroupbox(self, parent, item):
         legend = self._document.createElement('legend')
         if 'title' in item:
@@ -154,8 +166,7 @@ class CreateHtml:
         fieldset.append(legend)
         self._setAttr(fieldset, item)
         parent.append(fieldset)
-        if 'child' in item:
-            self._create(fieldset, item['child'])
+        return fieldset
 
     def _createLabel(self, parent, item):
         label = self._document.createElement('label')
@@ -216,16 +227,5 @@ if __name__ == '__main__':
     creator = CreateHtml(document)
     creator.create(_config_path)
     creator.save(_out_html_path)
-
-#link = soup.new_tag('link', rel = 'stylesheet', type = 'text/css', href='hogehoge.css')
-#head.append(link)
-
-'''
-for content in head.contents:
-    child = str(content).strip()
-    if child:
-        print(str(child).strip())
-'''
-#print(soup)
 
 #[EOF]
