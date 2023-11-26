@@ -8,10 +8,8 @@ import yaml
 起動時のパラメータ
 '''
 _template_html_path = './htmlByJson/tools/createHtml/template.html'
-#_out_html_path      = './test001.html'
-#_out_html_path      = './login001.html'
-_out_html_path      = './sample001.html'
-_config_path        = './htmlByJson/app/yaml/config.yaml'
+_out_html_path      = './index.html'
+_config_path        = './htmlByJson/app/yaml/sample001/config.yaml'
 
 class HtmlDocument:
     def __init__(self, template_html_path):

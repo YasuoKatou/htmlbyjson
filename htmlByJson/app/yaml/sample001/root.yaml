@@ -2,6 +2,6 @@ child:
   - flow-layout:
       direction: horizon
       child:
-        - import: ./htmlByJson/app/json/sample001/navi.json
-        - import: ./htmlByJson/app/json/sample001/content.json
+        - import: ./htmlByJson/app/yaml/sample001/navi.yaml
+        - import: ./htmlByJson/app/yaml/sample001/content.yaml
 #[EOF]
