@@ -1,4 +1,25 @@
+css:
+  - ./htmlByJson/app/css/sample001/page.css
+  - ./htmlByJson/app/css/sample001/nlang-page.css
+  - ./htmlByJson/app/css/sample001/math-page.css
 child:
   -  div:
       css: content-view
+      child:
+        - div:
+            css:
+              - wrap-page
+              - national-language-page
+            child:
+              - block-label:
+                  text: 国語
+                  css: subject-header-style
+        - div:
+            css:
+              - wrap-page
+              - math-page
+            child:
+              - block-label:
+                  text: 数学
+                  css: subject-header-style
 #[EOF]

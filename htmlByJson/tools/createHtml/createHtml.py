@@ -105,7 +105,7 @@ class CreateHtml:
             if isinstance(css, str):
                 element['class'] = css
             elif isinstance(css, list):
-                element['class'] = css.join(' ')
+                element['class'] = ' '.join(css)
 
     def _createBlockLabel(self, parent, item):
         p = self._document.createElement('p')
