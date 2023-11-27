@@ -1,7 +1,0 @@
-child:
-  - flow-layout:
-      direction: horizon
-      child:
-        - import: ./htmlByJson/app/yaml/sample001/navi.yaml
-        - import: ./htmlByJson/app/yaml/sample001/content.yaml
-#[EOF]

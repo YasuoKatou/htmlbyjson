@@ -1,5 +1,5 @@
 css:
-  - ./htmlByJson/app/css/sample001/navi.css
+  - ./htmlByJson/apps/sample001/css/navi.css
 child:
   -  div:
       id: sample001-navi

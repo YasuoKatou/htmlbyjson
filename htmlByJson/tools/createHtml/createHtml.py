@@ -9,7 +9,7 @@ import yaml
 '''
 _template_html_path = './htmlByJson/tools/createHtml/template.html'
 _out_html_path      = './index.html'
-_config_path        = './htmlByJson/app/yaml/sample001/config.yaml'
+_config_path        = './htmlByJson/apps/sample001/yaml/config.yaml'
 
 class HtmlDocument:
     def __init__(self, template_html_path):

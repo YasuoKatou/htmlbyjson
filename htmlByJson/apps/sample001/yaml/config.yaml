@@ -1,0 +1,9 @@
+root: body
+css:
+  - ./htmlByJson/core/css/htmlByJson.css
+  - ./htmlByJson/apps/sample001/css/root.css
+config: {}
+child:
+  - import: ./htmlByJson/apps/sample001/yaml/root.yaml
+
+#[EOF]
