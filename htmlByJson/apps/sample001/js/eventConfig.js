@@ -1,3 +1,6 @@
+/**
+ * createHtml.pyにより自動生成されたクラス.
+ */
 class EventConfig extends EventConfigBase {
     #eventMap = {};
     constructor() {
@@ -5,7 +8,6 @@ class EventConfig extends EventConfigBase {
     }
     setEvent() {
         console.log('start EventConfig.setEvent()');
-        // TODO createHtml.pyで自動作成すること
         let tag;
         tag = document.getElementById('national-lang-jpn-101');
         tag.addEventListener('click', this._clickEvent);

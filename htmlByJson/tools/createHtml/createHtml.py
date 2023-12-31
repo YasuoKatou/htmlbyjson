@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import functools
 import os
 import pathlib
+import re
 import yaml
 
 '''
@@ -9,6 +10,7 @@ import yaml
 '''
 _template_html_path = './htmlByJson/tools/createHtml/template.html'
 _out_html_path      = './index.html'
+_event_config_template_path = './htmlByJson/tools/createHtml/eventConfig.js'
 # TODO 起動時の引数にすること
 _ap_config_path     = './htmlByJson/apps/sample001/yaml/config.yaml'
 
@@ -19,6 +21,7 @@ class HtmlDocument:
         with p.open(mode='r', encoding='utf-8') as htmlFile:
             html = htmlFile.read()
         self._soup = BeautifulSoup(html, 'html.parser')
+        self._jsRoot = None
         #print(soup)
 
     def save(self, out_html_path):
@@ -45,6 +48,7 @@ class CreateHtml:
         self._document = html_document
         self._cssPathList = []
         self._jsPathList = []
+        self._eventList = {}
         self._configValues = {
             'css': {
                 'default': {
@@ -107,9 +111,17 @@ class CreateHtml:
         if 'child' in yd:
             self._create(parent, yd['child'])
 
+    def _setEventById(self, id, event):
+        eventType = event['type']
+        if eventType not in self._eventList:
+            self._eventList[eventType] = []
+        self._eventList[eventType].append({'id': id})
+
     def _setAttr(self, element, attr):
         if 'id' in attr:
             element['id'] = attr['id']
+            if 'event' in attr:
+                self._setEventById(attr['id'], attr['event'])
         if 'css' in attr:
             css = attr['css']
             if isinstance(css, str):
@@ -225,10 +237,41 @@ class CreateHtml:
             self.appendJavascript(yd['js'])
         if 'child' in yd:
             self._create(parent, yd['child'])
+        if 'js-root' in yd:
+            self._jsRoot = pathlib.Path(yd['js-root'])
 
     def save(self, out_html_path):
         self._document.save(out_html_path)
 
+    def _writeEvent(self, js, indentCount):
+        indent = ' ' * indentCount
+        js.write("{}let tag;\n".format(indent))
+        for eventType, infos in self._eventList.items():
+            for info in infos:
+                js.write("{}tag = document.getElementById('{}');\n".format(indent, info['id']))
+                js.write("{}tag.addEventListener('{}', this._clickEvent);\n".format(indent, eventType))
+
+    def eventConfig(self):
+        csStart = re.compile(r'\/\*\* start \*\/')
+        csEnd   = re.compile(r'\/\*\* end \*\/')
+        byId    = re.compile(r'\/\*\* addEventListener by id \*\/')
+        outFlag = False
+        apJsPath = self._jsRoot / 'eventConfig.js'
+        with pathlib.Path(_event_config_template_path).open(mode='r', encoding='utf-8') as tmpJs:
+            with apJsPath.open(mode='w', encoding='utf-8') as js:
+                for line in tmpJs:
+                    if outFlag:
+                        if csEnd.match(line):
+                            break
+                        m = byId.search(line)
+                        if m:
+                            indent = line.count(' ', 0, m.start())
+                            self._writeEvent(js, indent)
+                        else:
+                            js.write(line)
+                    if csStart.match(line):
+                        outFlag = True
+                        continue
 
 if __name__ == '__main__':
     #path = os.getcwd()
@@ -237,5 +280,7 @@ if __name__ == '__main__':
     creator = CreateHtml(document)
     creator.create(_ap_config_path)
     creator.save(_out_html_path)
+
+    creator.eventConfig()
 
 #[EOF]

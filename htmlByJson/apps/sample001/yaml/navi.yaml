@@ -47,16 +47,24 @@ child:
                         text: 数Ⅰ
                         id: math-1
                         css: navi-sub-menu-1
+                        event:
+                          type: click
                     - block-label:
                         text: 数ⅡA
                         id: math-2A
                         css: navi-sub-menu-1
+                        event:
+                          type: click
                     - block-label:
                         text: 数ⅡB
                         id: math-2B
                         css: navi-sub-menu-1
+                        event:
+                          type: click
                     - block-label:
                         text: 数Ⅲ
                         id: math-3
                         css: navi-sub-menu-1
+                        event:
+                          type: click
 #[EOF]

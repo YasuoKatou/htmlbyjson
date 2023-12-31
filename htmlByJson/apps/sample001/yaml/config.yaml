@@ -7,6 +7,7 @@ js:
   - ./htmlByJson/core/js/eventConfigBase.js
   - ./htmlByJson/apps/sample001/js/eventConfig.js
   - ./htmlByJson/apps/sample001/js/nationalLangJpnController.js
+js-root: ./htmlByJson/apps/sample001/js
 child:
   - import: ./htmlByJson/apps/sample001/yaml/root.yaml
 
