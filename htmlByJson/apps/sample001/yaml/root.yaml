@@ -1,3 +1,5 @@
+css:
+  - ./htmlByJson/apps/sample001/css/root.css
 child:
   - flow-layout:
       direction: horizon

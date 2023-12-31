@@ -9,7 +9,8 @@ import yaml
 '''
 _template_html_path = './htmlByJson/tools/createHtml/template.html'
 _out_html_path      = './index.html'
-_config_path        = './htmlByJson/apps/sample001/yaml/config.yaml'
+# TODO 起動時の引数にすること
+_ap_config_path     = './htmlByJson/apps/sample001/yaml/config.yaml'
 
 class HtmlDocument:
     def __init__(self, template_html_path):
@@ -43,6 +44,7 @@ class CreateHtml:
     def __init__(self, html_document):
         self._document = html_document
         self._cssPathList = []
+        self._jsPathList = []
         self._configValues = {
             'css': {
                 'default': {
@@ -72,6 +74,14 @@ class CreateHtml:
             link = self._document.createElement('link',
                 rel = 'stylesheet', type = 'text/css', href = item)
             head.append(link)
+
+    def appendJavascript(self, list):
+        head = self._document.head
+        for item in list:
+            if item in self._jsPathList:
+                continue
+            script = self._document.createElement('script', src = item)
+            head.append(script)
 
     def _readYaml(self, path):
         cwd = pathlib.Path(os.getcwd())
@@ -211,6 +221,8 @@ class CreateHtml:
             parent = self._document.body
         if 'css' in yd:
             self.appendCss(yd['css'])
+        if 'js' in yd:
+            self.appendJavascript(yd['js'])
         if 'child' in yd:
             self._create(parent, yd['child'])
 
@@ -223,7 +235,7 @@ if __name__ == '__main__':
     #print(path)
     document = HtmlDocument(_template_html_path)
     creator = CreateHtml(document)
-    creator.create(_config_path)
+    creator.create(_ap_config_path)
     creator.save(_out_html_path)
 
 #[EOF]

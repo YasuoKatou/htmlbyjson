@@ -1,8 +1,12 @@
 root: body
+config: {}
 css:
   - ./htmlByJson/core/css/htmlByJson.css
-  - ./htmlByJson/apps/sample001/css/root.css
-config: {}
+js:
+  - ./htmlByJson/core/js/pager.js
+  - ./htmlByJson/core/js/eventConfigBase.js
+  - ./htmlByJson/apps/sample001/js/eventConfig.js
+  - ./htmlByJson/apps/sample001/js/nationalLangJpnController.js
 child:
   - import: ./htmlByJson/apps/sample001/yaml/root.yaml
 
