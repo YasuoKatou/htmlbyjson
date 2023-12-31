@@ -115,7 +115,10 @@ class CreateHtml:
         eventType = event['type']
         if eventType not in self._eventList:
             self._eventList[eventType] = []
-        self._eventList[eventType].append({'id': id})
+        wk = [None, None]
+        if 'method' in event:
+            wk = event['method'].split('.')
+        self._eventList[eventType].append({'id': id, 'class': wk[0], 'method': wk[1]})
 
     def _setAttr(self, element, attr):
         if 'id' in attr:
@@ -243,18 +246,21 @@ class CreateHtml:
     def save(self, out_html_path):
         self._document.save(out_html_path)
 
-    def _writeEvent(self, js, indentCount):
+    def _writeEventMap(self, js, indentCount):
         indent = ' ' * indentCount
-        js.write("{}let tag;\n".format(indent))
+        worked = []
         for eventType, infos in self._eventList.items():
+            if eventType not in worked:
+                worked.append(eventType)
+                js.write("{}this.#eventMap['{}'] = [];\n".format(indent, eventType))
             for info in infos:
-                js.write("{}tag = document.getElementById('{}');\n".format(indent, info['id']))
-                js.write("{}tag.addEventListener('{}', this._clickEvent);\n".format(indent, eventType))
+                jsInfo = "'id': '{}', 'class': '{}', 'method': '{}'".format(info['id'], info['class'], info['method'])
+                js.write("{}this.#eventMap['{}'].push({{{}}});\n".format(indent, eventType, jsInfo))
 
     def eventConfig(self):
         csStart = re.compile(r'\/\*\* start \*\/')
         csEnd   = re.compile(r'\/\*\* end \*\/')
-        byId    = re.compile(r'\/\*\* addEventListener by id \*\/')
+        evtMap  = re.compile(r'\/\*\* set event classes \*\/')
         outFlag = False
         apJsPath = self._jsRoot / 'eventConfig.js'
         with pathlib.Path(_event_config_template_path).open(mode='r', encoding='utf-8') as tmpJs:
@@ -263,10 +269,11 @@ class CreateHtml:
                     if outFlag:
                         if csEnd.match(line):
                             break
-                        m = byId.search(line)
+                        m = evtMap.search(line)
                         if m:
                             indent = line.count(' ', 0, m.start())
-                            self._writeEvent(js, indent)
+                            self._writeEventMap(js, indent)
+                            continue
                         else:
                             js.write(line)
                     if csStart.match(line):

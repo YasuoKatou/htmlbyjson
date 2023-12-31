@@ -1,4 +1,4 @@
-class NationalLangJpnController {
+class MathController {
     _naviClicked(event) {
         let id = 'None';
         if (event && ('target' in event) && ('id' in event.target)) {

@@ -23,14 +23,14 @@ child:
                         css: navi-sub-menu-1
                         event:
                           type: click
-                          method: nlangJp.naviClicked
+                          method: NationalLangJpnController.naviClicked
                     - block-label:
                         text: 古文
                         id: national-lang-jpn-201
                         css: navi-sub-menu-1
                         event:
                           type: click
-                          method: nlangJp.naviClicked
+                          method: NationalLangJpnController.naviClicked
         - div:
             css: navi-menu_group
             child:
@@ -49,22 +49,26 @@ child:
                         css: navi-sub-menu-1
                         event:
                           type: click
+                          method: MathController.naviClicked
                     - block-label:
                         text: 数ⅡA
                         id: math-2A
                         css: navi-sub-menu-1
                         event:
                           type: click
+                          method: MathController.naviClicked
                     - block-label:
                         text: 数ⅡB
                         id: math-2B
                         css: navi-sub-menu-1
                         event:
                           type: click
+                          method: MathController.naviClicked
                     - block-label:
                         text: 数Ⅲ
                         id: math-3
                         css: navi-sub-menu-1
                         event:
                           type: click
+                          method: MathController.naviClicked
 #[EOF]

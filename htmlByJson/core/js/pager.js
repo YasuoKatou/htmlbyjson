@@ -3,7 +3,7 @@ class Pager {
 
     }
     initPage() {
-        console.log('start initPage.');
+        console.info('start initPage.');
     }
 }
 window.addEventListener('load', (event) => {
