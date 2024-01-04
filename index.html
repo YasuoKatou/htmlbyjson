@@ -9,6 +9,8 @@
   </script>
   <script src="./htmlByJson/apps/sample001/js/eventConfig.js">
   </script>
+  <script src="./htmlByJson/apps/sample001/js/controllerBase.js">
+  </script>
   <script src="./htmlByJson/apps/sample001/js/nationalLangJpnController.js">
   </script>
   <script src="./htmlByJson/apps/sample001/js/mathController.js">
@@ -16,15 +18,16 @@
   <link href="./htmlByJson/apps/sample001/css/root.css" rel="stylesheet" type="text/css"/>
   <link href="./htmlByJson/apps/sample001/css/navi.css" rel="stylesheet" type="text/css"/>
   <link href="./htmlByJson/apps/sample001/css/page.css" rel="stylesheet" type="text/css"/>
+  <link href="./htmlByJson/apps/sample001/css/init-page.css" rel="stylesheet" type="text/css"/>
   <link href="./htmlByJson/apps/sample001/css/nlang-page.css" rel="stylesheet" type="text/css"/>
   <link href="./htmlByJson/apps/sample001/css/math-page.css" rel="stylesheet" type="text/css"/>
  </head>
  <body>
   <div class="HBJ-LAYOUT-H001">
    <div class="navi-view" id="sample001-navi">
-    <div class="navi-menu_group">
+    <div class="navi-menu_group navi-menu_group-nlang">
      <input class="navi-checkbox" id="ID-000001" type="checkbox"/>
-     <label class="navi-title" for="ID-000001">
+     <label class="navi-title navi-100" for="ID-000001">
       国語
      </label>
      <div class="navi-content">
@@ -36,9 +39,9 @@
       </p>
      </div>
     </div>
-    <div class="navi-menu_group">
+    <div class="navi-menu_group navi-menu_group-math">
      <input class="navi-checkbox" id="ID-000002" type="checkbox"/>
-     <label class="navi-title" for="ID-000002">
+     <label class="navi-title navi-200" for="ID-000002">
       数学
      </label>
      <div class="navi-content">
@@ -58,12 +61,17 @@
     </div>
    </div>
    <div class="content-view">
-    <div class="wrap-page national-language-page">
+    <div class="wrap-page init-page" id="init-page">
+     <p class="select-subject">
+      科目を選択してください.
+     </p>
+    </div>
+    <div class="wrap-page national-language-page" id="nlang-page">
      <p class="subject-header-style">
       国語
      </p>
     </div>
-    <div class="wrap-page math-page">
+    <div class="wrap-page math-page" id="math-page">
      <p class="subject-header-style">
       数学
      </p>

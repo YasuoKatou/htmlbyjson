@@ -13,7 +13,7 @@ class EventConfig extends EventConfigBase {
         this.#eventMap['click'].push({'id': 'math-2B', 'class': 'MathController', 'method': 'naviClicked'});
         this.#eventMap['click'].push({'id': 'math-3', 'class': 'MathController', 'method': 'naviClicked'});
     }
-    _setClickEvent(eventType, events, clsList) {
+    _setClickEvent(eventType, events, clsList, pager) {
         let obj;
         for (let item of events) {
             let tag = document.getElementById(item['id']);
@@ -23,7 +23,7 @@ class EventConfig extends EventConfigBase {
             } else {
                 console.info('create ' + className);
                 let F = Function('return (' + className + ')')();
-                obj = new F();
+                obj = new F(pager);
                 clsList[className] = obj;
             }
             let m = Reflect.get(obj, item['method']);
@@ -31,13 +31,13 @@ class EventConfig extends EventConfigBase {
         }
         return clsList;
     }
-    setEvent() {
+    setEvent(pager) {
         console.log('start EventConfig.setEvent()');
         let clsList = {};
         for (let eventType in this.#eventMap) {
             console.info('event type : ' + eventType);
             if (eventType === 'click') {
-                clsList = this._setClickEvent(eventType, this.#eventMap[eventType], clsList);
+                clsList = this._setClickEvent(eventType, this.#eventMap[eventType], clsList, pager);
             }
         }
     }

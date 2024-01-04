@@ -1,6 +1,5 @@
 .navi-menu_group {
     position: relative;
-    background-color: aquamarine;
 }
 
 .navi-checkbox {
@@ -24,6 +23,22 @@
     background-color: aqua;
     font-weight: normal;
     font-size: large;
+}
+
+.navi-100 {
+    background-color: lightgreen;
+}
+
+.navi-menu_group-nlang > .navi-content > p {
+    background-color: aquamarine;
+}
+
+.navi-200 {
+    background-color: chocolate;
+}
+
+.navi-menu_group-math > .navi-content > p {
+    background-color: burlywood;
 }
 
 .navi-content {

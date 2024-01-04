@@ -1,5 +1,6 @@
 css:
   - ./htmlByJson/apps/sample001/css/page.css
+  - ./htmlByJson/apps/sample001/css/init-page.css
   - ./htmlByJson/apps/sample001/css/nlang-page.css
   - ./htmlByJson/apps/sample001/css/math-page.css
 child:
@@ -7,6 +8,16 @@ child:
       css: content-view
       child:
         - div:
+            id: init-page
+            css:
+              - wrap-page
+              - init-page
+            child:
+              - block-label:
+                  text: 科目を選択してください.
+                  css: select-subject
+        - div:
+            id: nlang-page
             css:
               - wrap-page
               - national-language-page
@@ -15,6 +26,7 @@ child:
                   text: 国語
                   css: subject-header-style
         - div:
+            id: math-page
             css:
               - wrap-page
               - math-page

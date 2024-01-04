@@ -6,13 +6,17 @@ child:
       css: navi-view
       child:
         - div:
-            css: navi-menu_group
+            css:
+              - navi-menu_group
+              - navi-menu_group-nlang
             child:
               - checkbox:
                   in-label: false
                   css: navi-checkbox
                   label:
-                    css: navi-title
+                    css:
+                      - navi-title
+                      - navi-100
                     text: "国語"
               - div:
                   css: navi-content
@@ -32,13 +36,17 @@ child:
                           type: click
                           method: NationalLangJpnController.naviClicked
         - div:
-            css: navi-menu_group
+            css:
+              - navi-menu_group
+              - navi-menu_group-math
             child:
               - checkbox:
                   in-label: false
                   css: navi-checkbox
                   label:
-                    css: navi-title
+                    css:
+                      - navi-title
+                      - navi-200
                     text: "数学"
               - div:
                   css: navi-content

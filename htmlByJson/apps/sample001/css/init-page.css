@@ -1,0 +1,9 @@
+.init-page {
+    background-color: lightskyblue;
+    display: block;
+}
+
+.select-subject {
+    margin-top: 3rem;
+    text-align: center;
+}

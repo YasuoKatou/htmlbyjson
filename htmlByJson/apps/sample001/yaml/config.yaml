@@ -6,6 +6,7 @@ js:
   - ./htmlByJson/core/js/pager.js
   - ./htmlByJson/core/js/eventConfigBase.js
   - ./htmlByJson/apps/sample001/js/eventConfig.js
+  - ./htmlByJson/apps/sample001/js/controllerBase.js
   - ./htmlByJson/apps/sample001/js/nationalLangJpnController.js
   - ./htmlByJson/apps/sample001/js/mathController.js
 js-root: ./htmlByJson/apps/sample001/js
